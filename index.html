@@ -11,13 +11,13 @@
     
     <div class="main">
         <div class="birthdate-input-main">
-            <div class="birthdate-icon"><img src="./icons/calendar.png" alt=""></div>
+            <div class="birthdate-icon"><img class="birthday-logo"></div>
             <ul class="birthdate-inputs">
-                <li class="day-input"><input type="text" name="birthdate-day" id="birthdate-day" placeholder="dd" maxlength="2"></li>
-                <li class="birthdate-separator">/</li>
-                <li class="month-input"><input type="text" name="birthdate-month" id="birthdate-month" placeholder="mm" maxlength="2"></li>
-                <li class="birthdate-separator">/</li>
-                <li class="year-input"><input type="text" name="birthdate-year" id="birthdate-year" placeholder="yyyy" maxlength="4"></li>
+                <li class="day-input"><input type="text" name="birthdate-day" class="birthdate-input" id="birthdate-day" placeholder="dd" maxlength="2"></li>
+                <li class="separator">/</li>
+                <li class="month-input"><input type="text" name="birthdate-month" class="birthdate-input"  id="birthdate-month" placeholder="mm" maxlength="2"></li>
+                <li class="separator">/</li>
+                <li class="year-input"><input type="text" name="birthdate-year" class="birthdate-input"  id="birthdate-year" placeholder="yyyy" maxlength="4"></li>
             </ul>
         </div>
     </div>
@@ -26,15 +26,96 @@
 
 <script>
 
+    let dayValue = '', monthValue = '', yearValue = '';
+    let isErrorYear = false;
+    document.querySelector('.birthday-logo').src="./icons/calendar.png";
+
     function inputBorderColorFocusin(){document.querySelector('.birthdate-input-main').style.borderColor = '#0077ff';}
     function inputBorderColorFocusout(){document.querySelector('.birthdate-input-main').style.borderColor = 'gray';}
-
-    var input = document.querySelectorAll('input');
-    for(i=0; i<input.length; i++){
+     
+    const input = document.querySelectorAll('.birthdate-input');
+    for(i=0; i<3; i++){
         input[i].setAttribute('size',input[i].getAttribute('placeholder').length*0.9);
         input[i].addEventListener('focusin',inputBorderColorFocusin);
-        input[i].addEventListener('focusout',inputBorderColorFocusout);
     }
+
+    var today = new Date();
+    var currentDay = today.getDate();
+    var currentMonth = today.getMonth()+1;
+    var currentYear = today.getFullYear();
+
+    function isBorn(day,month,year)
+    {
+        if(day=='' || year=='' || month=='')
+            return true;
+        if(year>currentYear)
+            return false;
+        else if(year == currentYear && month>currentMonth)
+            return false;
+        else if(year == currentYear && month == currentMonth && day>currentDay)
+            return false;
+        return true;
+    }
+
+    function yearIcon(year)
+    {
+        let age = currentYear - yearValue;
+
+        if(yearValue!='' &&   age>=150)
+            document.querySelector('.birthday-logo').src="./icons/rip.png";
+        else if(age<150 && age>60)
+            document.querySelector('.birthday-logo').src="./icons/old.png";
+        else if(age>=0 && age<=10)
+            document.querySelector('.birthday-logo').src="./icons/baby.png";
+        else if(age>=11 && age<=60)
+            document.querySelector('.birthday-logo').src="./icons/teen.png";
+    }
+
+    
+
+    input[0].addEventListener('focusout',function(){
+        dayValue = input[0].value;
+        if(String(dayValue).length<2 && String(dayValue).length>0)
+            input[0].value = '0'+ String(dayValue);
+        document.querySelector('.birthdate-input-main').style.borderColor = !isErrorYear ? 'gray' : 'red'; 
+    });
+    input[0].addEventListener('click',function(){
+        dayValue = '';
+        input[0].value = '';
+    });
+
+    input[1].addEventListener('focusout',function(){
+        monthValue = input[1].value;
+        if(String(monthValue).length<2 && String(monthValue).length>0)
+            input[1].value = '0'+ String(monthValue);
+        document.querySelector('.birthdate-input-main').style.borderColor = !isErrorYear ? 'gray' : 'red'; 
+    });
+    input[1].addEventListener('click',function(){
+        monthValue = '';
+        input[1].value = '';
+    });
+
+    input[2].addEventListener('focusout',function(){
+        yearValue = input[2].value;
+        if(!isBorn(dayValue,monthValue,yearValue))
+            {
+                isErrorYear = true;
+                document.querySelector('.birthday-logo').src="./icons/error.png";
+            }
+        else
+            {
+                isErrorYear = false
+                if(yearValue!='')
+                    yearIcon(yearValue);
+
+            }
+        document.querySelector('.birthdate-input-main').style.borderColor = !isErrorYear ? 'gray' : 'red';        
+    });
+    input[2].addEventListener('click',function(){
+        yearValue = '';
+        input[2].value = '';
+    });
+
 
 </script>
 </body>
