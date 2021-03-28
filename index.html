@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Birthdate Input</title>
+    <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+    
+    <div class="main">
+        <div class="birthdate-input-main">
+            <div class="birthdate-icon"><img src="./icons/calendar.png" alt=""></div>
+            <ul class="birthdate-inputs">
+                <li class="day-input"><input type="text" name="birthdate-day" id="birthdate-day" placeholder="dd" maxlength="2"></li>
+                <li class="birthdate-separator">/</li>
+                <li class="month-input"><input type="text" name="birthdate-month" id="birthdate-month" placeholder="mm" maxlength="2"></li>
+                <li class="birthdate-separator">/</li>
+                <li class="year-input"><input type="text" name="birthdate-year" id="birthdate-year" placeholder="yyyy" maxlength="4"></li>
+            </ul>
+        </div>
+    </div>
+
+
+
+<script>
+
+    function inputBorderColorFocusin(){document.querySelector('.birthdate-input-main').style.borderColor = '#0077ff';}
+    function inputBorderColorFocusout(){document.querySelector('.birthdate-input-main').style.borderColor = 'gray';}
+
+    var input = document.querySelectorAll('input');
+    for(i=0; i<input.length; i++){
+        input[i].setAttribute('size',input[i].getAttribute('placeholder').length*0.9);
+        input[i].addEventListener('focusin',inputBorderColorFocusin);
+        input[i].addEventListener('focusout',inputBorderColorFocusout);
+    }
+
+</script>
+</body>
+</html>
