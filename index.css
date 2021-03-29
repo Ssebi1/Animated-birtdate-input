@@ -56,3 +56,19 @@ body{
     max-height: 100%;
     margin:0 auto;
 }
+
+.errors{
+    position: absolute;
+    transform:translateY(90px);
+    text-align: center;
+    padding: 0;
+    color:#ff4242;
+    height:100px;
+}
+
+.errors li{
+    display: block;
+    list-style-type: none;
+    margin-bottom:3px;
+    display: none;
+}
